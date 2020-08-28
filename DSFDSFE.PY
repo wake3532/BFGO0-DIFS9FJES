@@ -20,6 +20,14 @@ async def on_ready():
     print('아이디 : {}'.format(client.user.id))
 
 @client.event
+async def on_member_join(member):
+    try:
+        syscha = member.guild.system_channel
+        await syscha.send(f"{member.mention} 님 어서오세요 !인증이라고 말해주세요 ! ")
+    except:
+        pass
+
+@client.event
 async def on_message(message):
     if message.content == '!인증':
         syscha = message.channel
@@ -31,7 +39,7 @@ async def on_message(message):
         await message.delete()
         embed=discord.Embed(colour=0x85CFFF, timestamp=message.created_at)
         await syscha.send(f"{message.author.mention} 님 역할이 지급 되었습니다 !")
-        role = discord.utils.get(message.author.guild.roles, name='시민')
+        role = discord.utils.get(message.author.guild.roles, name='유저')
         await message.author.add_roles(role)
 
 access_token = os.environ["BOT_TOKEN"]
